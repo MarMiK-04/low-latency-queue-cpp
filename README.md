@@ -45,3 +45,45 @@ Both implementations are benchmarked using microsecond-resolution timing.
 
 ## 📊 Sample Output
 
+The following screenshot shows the benchmark results comparing the mutex-based
+queue with the lock-free SPSC queue on a local machine.
+
+![Benchmark Output](images/output.png)
+
+Example output:
+
+Mutex Queue Time: 530865 us
+Lock-Free Queue Time: 157852 us
+
+
+> Exact timings may vary depending on hardware, OS scheduler, and background load.  
+> The lock-free queue consistently demonstrates lower latency by avoiding lock
+> contention and context switching.
+
+---
+
+## 🧠 Key Learnings
+
+- Lock contention significantly impacts latency in concurrent systems
+- Lock-free designs reduce blocking and context switching
+- Atomic memory ordering (`relaxed`, `acquire`, `release`) is critical for correctness
+- Performance assumptions must be validated through real measurements
+- Well-scoped lock-free designs (such as SPSC) are easier to reason about and optimize
+
+---
+
+## ⚠️ Design Notes
+
+- The lock-free queue is designed specifically for **Single-Producer Single-Consumer (SPSC)** scenarios
+- Extending this design to multiple producers or consumers would require additional synchronization
+- Busy-waiting (spinning) is used intentionally to favor low latency over CPU efficiency
+
+---
+
+## 📎 Build & Run
+
+Compile with optimizations enabled:
+
+```bash
+g++ -O2 -std=c++17 main.cpp -pthread
+./a.out
