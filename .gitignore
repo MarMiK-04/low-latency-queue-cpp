@@ -1,0 +1,6 @@
+# Ignore build outputs
+*.exe
+*.o
+*.obj
+*.out
+*.log
